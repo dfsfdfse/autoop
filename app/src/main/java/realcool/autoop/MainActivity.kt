@@ -1,62 +1,32 @@
 package realcool.autoop
 
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import realcool.autoop.component.FloatService
-import realcool.autoop.ui.theme.AutoopTheme
-import realcool.autoop.utils.e
+import androidx.activity.viewModels
+import androidx.compose.ui.platform.ComposeView
+import org.opencv.android.OpenCVLoader
+import realcool.autoop.utils.cFloat
+import realcool.autoop.utils.loge
+import realcool.autoop.view.ui.EnterScreen
+import realcool.autoop.view.viewmodel.EnterViewModel
 
 class MainActivity : ComponentActivity() {
+    private val cw = cFloat(this)
+
+    private val enterViewModel by viewModels<EnterViewModel>()
+
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            AutoopTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting({
-                        e("进来了")
-                        startService(Intent(this, FloatService::class.java))
-                        moveTaskToBack(true)
-                    })
-                }
-            }
+        if (OpenCVLoader.initDebug()) {
+            loge("opencv加载成功了!")
         }
-    }
-}
-
-@Composable
-fun Greeting(click: () -> Unit, modifier: Modifier = Modifier) {
-    Column(
-        modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        TextButton(onClick = click) {
-            Text(text = "float")
+        setContentView(R.layout.game_main)
+        val main = findViewById<ComposeView>(R.id.mainView)
+        main.setContent {
+            EnterScreen(viewModel = enterViewModel)
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    AutoopTheme {
 
     }
 }

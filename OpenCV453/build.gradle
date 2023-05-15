@@ -1,13 +1,12 @@
-plugins{
-    id 'com.android.library'
-}
+apply plugin: 'com.android.library'
 
 android {
-    namespace 'org.opencv'
     compileSdkVersion 33
-    buildToolsVersion "29.0.2"
-    defaultConfig {
+    buildToolsVersion "33.0.2"
 
+    defaultConfig {
+        namespace "org.opencv"
+        minSdk 24
     }
 
     buildTypes {
@@ -16,5 +15,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
-    ndkVersion '21.1.6352462'
+
+    buildFeatures{
+        aidl true
+    }
+}
+
+dependencies{
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
