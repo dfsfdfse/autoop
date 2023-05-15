@@ -19,6 +19,7 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enterViewModel.ctx = this
         if (OpenCVLoader.initDebug()) {
             loge("opencv加载成功了!")
         }

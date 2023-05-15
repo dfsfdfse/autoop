@@ -1,41 +1,51 @@
 package realcool.autoop.view.viewmodel
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import org.opencv.android.Utils
+import org.opencv.core.Mat
+import org.opencv.imgproc.Imgproc
+import realcool.autoop.utils.getBitmapByAssets
 import realcool.autoop.utils.loge
 import realcool.autoop.view.state.EnterState
 import kotlin.random.Random
 
-class EnterViewModel() : BaseViewModel<EnterState>() {
+class EnterViewModel : BaseViewModel<EnterState>() {
     override val muteState: MutableStateFlow<EnterState> = MutableStateFlow(EnterState())
-    fun inputText(text: String) {
+
+    @SuppressLint("StaticFieldLeak")
+    lateinit var ctx: Context
+    fun showFloat() {
+
+    }
+
+    fun showOrigin() {
         setState {
-            inputText = text
+            originBitmap = originBitmap ?: getBitmapByAssets(ctx.assets, "sky.jpg")
+            bitmap = originBitmap
         }
     }
 
-    fun changeName() {
+    fun showBinary() {
         setState {
-            floatBtnText = "测试"
+            originBitmap = originBitmap ?: getBitmapByAssets(ctx.assets, "sky.jpg")
+            binaryBitmap = binaryBitmap ?: getBinaryBitmap(originBitmap!!)
+            bitmap = binaryBitmap
         }
     }
 
-    fun changeOrigin() {
-        setState {
-            originBtnText = randomText((0..5).random())
-        }
-    }
-
-    private fun randomText(random: Int): String {
-        return listOf(
-            "随机1",
-            "随机2",
-            "随机3",
-            "随机4",
-            "随机5",
-            "随机6",
-        )[random]
+    private fun getBinaryBitmap(origin: Bitmap): Bitmap{
+        val o = Mat()
+        Utils.bitmapToMat(origin, o)
+        Imgproc.cvtColor(o, o, Imgproc.COLOR_BGR2GRAY)
+        val clone = Bitmap.createBitmap(origin.width, origin.height, Bitmap.Config.ARGB_8888)
+        Utils.matToBitmap(o, clone)
+        return clone
     }
 }
 
