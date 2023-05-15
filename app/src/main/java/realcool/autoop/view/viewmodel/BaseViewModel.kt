@@ -11,9 +11,6 @@ import java.lang.reflect.Method
 import kotlin.system.measureTimeMillis
 
 abstract class BaseViewModel<STATE : State> : ViewModel() {
-    /**
-     * State to be exposed to the UI layer
-     */
     protected abstract val muteState: MutableStateFlow<STATE>
 
     val state: StateFlow<STATE> get() = muteState.asStateFlow()
