@@ -6,5 +6,7 @@ import android.graphics.BitmapFactory
 
 fun getBitmapByAssets(asset: AssetManager, filename: String): Bitmap {
     val open = asset.open(filename)
-    return BitmapFactory.decodeStream(open)
+    val bitmap = BitmapFactory.decodeStream(open)
+    loge("width:${bitmap.width}, height: ${bitmap.height}")
+    return bitmap
 }

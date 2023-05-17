@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.compose.ui.platform.ComposeView
+import com.benjaminwan.ocrlibrary.OcrEngine
 import org.opencv.android.OpenCVLoader
 import realcool.autoop.utils.cFloat
 import realcool.autoop.utils.loge
@@ -20,6 +21,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterViewModel.ctx = this
+        enterViewModel.ocrEngine = OcrEngine(this)
         if (OpenCVLoader.initDebug()) {
             loge("opencv加载成功了!")
         }

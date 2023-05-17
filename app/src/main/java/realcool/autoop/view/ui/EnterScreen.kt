@@ -23,14 +23,23 @@ fun EnterScreen(viewModel: EnterViewModel) {
     ) {
         LazyRow{
             item {
-                Button(onClick = viewModel::showFloat) {
-                    Text(text = state.floatBtnText)
+                /*Button(onClick = viewModel::ocrDetect) {
+                    Text(text = state.ocrBtnText)
                 }
                 Button(onClick = viewModel::showOrigin) {
                     Text(text = state.originBtnText)
                 }
+                Button(onClick = viewModel::showGray) {
+                    Text(text = state.grayBtnText)
+                }*/
                 Button(onClick = viewModel::showBinary) {
                     Text(text = state.binaryBtnText)
+                }
+                Button(onClick = viewModel::showCounters) {
+                    Text(text = state.countersBtnText)
+                }
+                Button(onClick = viewModel::httpOcr) {
+                    Text(text = state.ocrHttpBtnText)
                 }
             }
         }
